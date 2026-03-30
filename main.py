@@ -1,3 +1,5 @@
+import time
+
 """
 torres_hanoi.py
 Implementación de las Torres de Hanói utilizando una estructura de datos de Pila (Stack).
@@ -84,13 +86,23 @@ def main():
     print(torre_destino)
     print("\nIniciando movimientos...\n")
     
+    # Capturamos el tiempo exacto antes de empezar
+    inicio_tiempo = time.perf_counter()
+    
     # Ejecutamos el algoritmo
     solve_hanoi(num_discos, torre_origen, torre_auxiliar, torre_destino)
+    
+    # Capturamos el tiempo exacto al terminar y calculamos la diferencia
+    fin_tiempo = time.perf_counter()
+    tiempo_transcurrido = fin_tiempo - inicio_tiempo
     
     print("\n=== ESTADO FINAL ===")
     print(torre_origen)
     print(torre_auxiliar)
     print(torre_destino)
+    
+    # Imprimimos el tiempo total con 6 decimales para mayor claridad
+    print(f"\n⏱️ Tiempo de ejecución: {tiempo_transcurrido:.6f} segundos")
 
 
 if __name__ == "__main__":
