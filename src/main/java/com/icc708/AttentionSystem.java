@@ -45,6 +45,10 @@ public class AttentionSystem {
         }
     }
 
+    public void showQueue() {
+        System.out.println("Orden en cola: " + doblecola);
+    }
+
     public int waitingClients() {
         return doblecola.size();
     }

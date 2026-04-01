@@ -77,6 +77,18 @@ public class Dequeue<T> {
         return tail.data;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        Node current = head;
+        while (current != null) {
+            sb.append(current.data);
+            if (current.next != null) sb.append(", ");
+            current = current.next;
+        }
+        return sb.append("]").toString();
+    }
+
     public boolean isEmpty() {
         return size == 0;
     }
