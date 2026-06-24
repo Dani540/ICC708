@@ -1,0 +1,12 @@
+# Grafo no dirigido como LISTA DE ADYACENCIA
+# formato: origen,destino,costo
+A,B,2
+A,C,4
+B,C,1
+B,D,7
+C,D,8
+C,F,5
+D,E,3
+D,G,2
+F,E,2
+E,G,6
