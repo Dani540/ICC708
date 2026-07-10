@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación Técnica - Proyecto Integrador</title>
+
+    <!-- Librerias externas (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+    <style>
+        /* Variables y reset */
+        :root {
+            --bg: #fdfcf9;
+            --bg-paper: #ffffff;
+            --text: #2c2c2c;
+            --text-muted: #6b6b6b;
+            --accent: #1a56db;
+            --accent-light: #e8f0fe;
+            --border: #e2e0dc;
+            --code-bg: #f6f5f3;
+            --tab-active: #1a56db;
+            --tab-hover: #f0efe9;
+            --shadow: 0 1px 3px rgba(0, 0, 0, .06), 0 1px 2px rgba(0, 0, 0, .04);
+            --shadow-lg: 0 4px 16px rgba(0, 0, 0, .08);
+            --radius: 8px;
+            --font-body: 'Georgia', 'Times New Roman', serif;
+            --font-code: 'Fira Code', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+            --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --max-width: 900px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 17px;
+            scroll-behavior: smooth;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            line-height: 1.75;
+        }
+
+        body {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* Cabecera */
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        header h1 {
+            font-family: var(--font-ui);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.3px;
+        }
+
+        header .subtitle {
+            font-family: var(--font-ui);
+            font-size: .85rem;
+            color: var(--text-muted);
+            margin-top: .25rem;
+        }
+
+        /* Pestañas de navegación */
+        nav.tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .3rem;
+            margin-bottom: 2rem;
+            padding: .3rem;
+            background: var(--bg-paper);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        nav.tabs button {
+            flex: 0 0 auto;
+            font-family: var(--font-ui);
+            font-size: .82rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            padding: .55rem 1rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all .15s ease;
+        }
+
+        nav.tabs button:hover {
+            background: var(--tab-hover);
+            color: var(--text);
+        }
+
+        nav.tabs button.active {
+            background: var(--tab-active);
+            color: #fff;
+            box-shadow: var(--shadow);
+        }
+
+        /* Área de contenido */
+        #doc-content {
+            background: var(--bg-paper);
+            padding: 2.5rem 2.8rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            min-height: 60vh;
+        }
+
+        /* Placeholder inicial */
+        #doc-content .placeholder {
+            text-align: center;
+            color: var(--text-muted);
+            font-family: var(--font-ui);
+            padding: 4rem 1rem;
+        }
+
+        #doc-content .placeholder svg {
+            display: block;
+            margin: 0 auto 1rem;
+            opacity: .35;
+        }
+
+        /* Tipografía del contenido renderizado */
+        #doc-content h1 {
+            font-family: var(--font-ui);
+            font-size: 1.55rem;
+            font-weight: 700;
+            margin: .4em 0 .6em;
+            padding-bottom: .35em;
+            border-bottom: 2px solid var(--accent-light);
+            color: var(--text);
+            letter-spacing: -0.2px;
+        }
+
+        #doc-content h2 {
+            font-family: var(--font-ui);
+            font-size: 1.2rem;
+            font-weight: 650;
+            margin: 1.8em 0 .5em;
+            color: #1a1a1a;
+        }
+
+        #doc-content h3 {
+            font-family: var(--font-ui);
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1.5em 0 .4em;
+            color: #333;
+        }
+
+        #doc-content h4 {
+            font-family: var(--font-ui);
+            font-size: .92rem;
+            font-weight: 600;
+            margin: 1.3em 0 .3em;
+            color: #444;
+        }
+
+        #doc-content p {
+            margin: .75em 0;
+        }
+
+        #doc-content a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color .15s;
+        }
+
+        #doc-content a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        /* Código */
+        #doc-content code {
+            font-family: var(--font-code);
+            font-size: .88em;
+            background: var(--code-bg);
+            padding: .15em .4em;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            word-break: break-word;
+        }
+
+        #doc-content pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.2rem 1.4rem;
+            overflow-x: auto;
+            margin: 1em 0;
+            line-height: 1.55;
+            font-size: .85rem;
+        }
+
+        #doc-content pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        /* Tablas */
+        #doc-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2em 0;
+            font-size: .88rem;
+            font-family: var(--font-ui);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        #doc-content thead {
+            background: #f0efe9;
+        }
+
+        #doc-content th {
+            font-weight: 600;
+            text-align: left;
+            padding: .6rem .8rem;
+            border-bottom: 2px solid var(--border);
+            font-size: .82rem;
+            text-transform: uppercase;
+            letter-spacing: .3px;
+            color: var(--text-muted);
+        }
+
+        #doc-content td {
+            padding: .5rem .8rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        #doc-content tr:nth-child(even) td {
+            background: #fdfdfc;
+        }
+
+        #doc-content tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Listas, citas, separadores */
+        #doc-content ul,
+        #doc-content ol {
+            margin: .6em 0;
+            padding-left: 1.6em;
+        }
+
+        #doc-content li {
+            margin: .25em 0;
+        }
+
+        #doc-content blockquote {
+            border-left: 4px solid var(--accent);
+            margin: 1em 0;
+            padding: .5em 1em;
+            background: var(--accent-light);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            color: #3a3a3a;
+            font-style: italic;
+        }
+
+        #doc-content hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2em 0;
+        }
+
+        /* Diagramas (SVG incrustados) */
+        #doc-content .diagrama {
+            text-align: center;
+            margin: 1.5em 0;
+            padding: 1rem;
+            background: #fafaf8;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow-x: auto;
+        }
+
+        #doc-content .diagrama img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Navegación inferior (anterior / siguiente) */
+        footer.nav-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            font-family: var(--font-ui);
+            font-size: .85rem;
+            gap: 1rem;
+        }
+
+        footer.nav-footer button {
+            background: var(--bg-paper);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: .5rem 1.2rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: inherit;
+            color: var(--text);
+            transition: all .15s ease;
+            box-shadow: var(--shadow);
+            white-space: nowrap;
+        }
+
+        footer.nav-footer button:hover {
+            background: var(--accent-light);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        footer.nav-footer button:disabled {
+            opacity: .35;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        footer.nav-footer .page-indicator {
+            color: var(--text-muted);
+            text-align: center;
+            flex: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            html {
+                font-size: 15px;
+            }
+
+            body {
+                padding: 1rem .8rem 3rem;
+            }
+
+            #doc-content {
+                padding: 1.5rem 1.2rem;
+            }
+
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            nav.tabs button {
+                font-size: .75rem;
+                padding: .45rem .7rem;
+            }
+
+            footer.nav-footer button {
+                padding: .4rem .9rem;
+                font-size: .8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                font-size: 14px;
+            }
+
+            nav.tabs {
+                gap: .2rem;
+            }
+
+            nav.tabs button {
+                font-size: .72rem;
+                padding: .4rem .55rem;
+            }
+        }
+
+        /* Impresión */
+        @media print {
+
+            nav.tabs,
+            footer.nav-footer,
+            header .subtitle {
+                display: none;
+            }
+
+            #doc-content {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+            }
+
+            body {
+                max-width: 100%;
+                background: #fff;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Cabecera -->
+    <header>
+        <h1>📘 Documentación Técnica: Proyecto Integrador</h1>
+        <p class="subtitle">
+            Estructuras de Datos y Algoritmos &middot; Programación Avanzada ICC708
+        </p>
+    </header>
+
+    <!-- Pestañas -->
+    <nav class="tabs" id="tab-nav" role="tablist" aria-label="Documentos">
+    </nav>
+
+    <!-- Contenido -->
+    <main id="doc-content" role="tabpanel" aria-live="polite">
+        <div class="placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+            </svg>
+            <p>Selecciona un documento en las pestañas superiores para comenzar.</p>
+        </div>
+    </main>
+
+    <!-- Navegación inferior -->
+    <footer class="nav-footer">
+        <button id="btn-prev" disabled title="Documento anterior (←)">← Anterior</button>
+        <span class="page-indicator" id="page-indicator"></span>
+        <button id="btn-next" disabled title="Documento siguiente (→)">Siguiente →</button>
+    </footer>
+
+    <!-- Datos: documentos incrustados -->
+    <script>
+        const DOCS = [
+            {
+                "file": "01_diseno_adt.md",
+                "title": "Parte 1: Modelo de Datos (ADT)",
+                "tab": "Parte 1",
+                "content": "# Parte 1: Modelo de Datos (ADT)\n\nUn **Tipo de Dato Abstracto (ADT)** se define por *qué* operaciones ofrece y\n*qué* garantiza cada una (precondiciones, postcondiciones, complejidad), no por\ncómo está implementado. Este documento especifica los tres ADT del sistema y\nlas decisiones de diseño detrás de cada uno.\n\n## Diagrama general\n\n\\`\\`\\`mermaid\nclassDiagram\n    class Incident {\n        +str id\n        +str ubicacion\n        +int prioridad\n        +str tipo\n        +datetime timestamp\n        +EstadoIncidente estado\n        +prioridad_efectiva(ahora) float\n        +horas_de_espera(ahora) float\n        +desde_fila_csv(fila) Incident\n    }\n    class EstadoIncidente {\n        <<enumeration>>\n        PENDIENTE\n        ASIGNADO\n        ATENDIDO\n        CANCELADO\n    }\n    class EmergencyCenter {\n        +str id\n        +str nombre\n        +str ubicacion\n    }\n    class RoadNetwork {\n        -dict adyacencia\n        -dict coordenadas\n        +agregar_nodo(nodo, x, y)\n        +agregar_arista(origen, destino, peso)\n        +vecinos(nodo) list\n        +peso(origen, destino) float\n        +distancia_euclidiana(a, b) float\n        +cargar_desde_csv(nodos, aristas) RoadNetwork\n    }\n    Incident --> EstadoIncidente\n    Incident ..> RoadNetwork : ubicacion es un nodo\n    EmergencyCenter ..> RoadNetwork : ubicacion es un nodo\n\\`\\`\\`\n\nLos tres ADT se conectan a través de la red vial: tanto \\`Incident.ubicacion\\`\ncomo \\`EmergencyCenter.ubicacion\\` son identificadores de nodos de \\`RoadNetwork\\`,\nlo que permite calcular rutas entre centros e incidentes.\n\n---\n\n## Incident (\\`modelos/incidente.py\\`)\n\nRepresenta una solicitud de ayuda reportada durante la emergencia. Se\nimplementa como \\`@dataclass\\` porque es fundamentalmente un registro de datos\ncon dos operaciones derivadas; el estado se modela con un \\`Enum\\` para que solo\nexistan los cuatro valores válidos.\n\n### Atributos\n\n| Atributo | Tipo | Descripción |\n|----------|------|-------------|\n| \\`id\\` | \\`str\\` | Identificador único (\\`I-0001\\`, \\`I-0002\\`, …) |\n| \\`ubicacion\\` | \\`str\\` | Nodo de la red vial donde ocurre (\\`Z-18\\`) |\n| \\`prioridad\\` | \\`int\\` | Severidad base del incidente, de 1 a 5 |\n| \\`tipo\\` | \\`str\\` | Categoría (\\`incendio\\`, \\`derrumbe\\`, \\`fuga_gas\\`, …) |\n| \\`timestamp\\` | \\`datetime\\` | Momento del reporte |\n| \\`estado\\` | \\`EstadoIncidente\\` | \\`PENDIENTE\\`, \\`ASIGNADO\\`, \\`ATENDIDO\\` o \\`CANCELADO\\` |\n\n### Operaciones\n\n| Operación | Precondición | Postcondición | Complejidad |\n|-----------|--------------|---------------|-------------|\n| \\`prioridad_efectiva(ahora)\\` | \\`ahora\\` es un \\`datetime\\` | Devuelve \\`prioridad × (1 + horas_de_espera)\\`; no modifica el incidente | O(1) |\n| \\`horas_de_espera(ahora)\\` | \\`ahora\\` es un \\`datetime\\` | Devuelve las horas transcurridas desde el reporte (≥ 0) | O(1) |\n| \\`desde_fila_csv(fila)\\` | \\`fila\\` contiene las 6 columnas con formatos válidos | Devuelve un \\`Incident\\` nuevo equivalente a la fila | O(1) |\n\n### La fórmula de prioridad\n\nEl enunciado propone \\`prioridad = severidad × factor_tiempo\\`. Se implementó:\n\n\\`\\`\\`\nprioridad_efectiva = prioridad_base × (1 + horas_de_espera)\n\\`\\`\\`\n\n* \\`prioridad_base\\` (1–5) captura la severidad intrínseca del incidente.\n* El factor \\`(1 + horas_de_espera)\\` crece linealmente con el tiempo, de modo\n  que **ningún incidente queda relegado para siempre** (anti-inanición): un\n  incidente leve que lleva dos días esperando termina superando a uno grave\n  recién reportado.\n* El \\`+1\\` garantiza que un incidente recién creado conserve al menos su\n  severidad base (factor 1, no 0).\n\nEjemplo con la ejecución real: \\`I-0102\\` tiene severidad 5 y 71.8 h de espera,\npor lo que su prioridad efectiva es \\`5 × (1 + 71.8) = 364.0\\`, la mayor de los\n520 incidentes.\n\n---\n\n## EmergencyCenter (\\`modelos/centro_emergencia.py\\`)\n\nRepresenta un centro de operaciones desde el cual parten los equipos de\nrespuesta. Es un \\`@dataclass(frozen=True)\\`: los centros no cambian durante la\nsimulación, e inmutable puede usarse con seguridad como llave o elemento de\nconjuntos.\n\n| Atributo | Tipo | Descripción |\n|----------|------|-------------|\n| \\`id\\` | \\`str\\` | Identificador (\\`C-NORTE\\`, \\`C-SUR\\`, …) |\n| \\`nombre\\` | \\`str\\` | Nombre legible (\\`Centro de Emergencia Norte\\`) |\n| \\`ubicacion\\` | \\`str\\` | Nodo de la red vial donde se ubica |\n\nNo tiene operaciones propias: su rol es anclar los orígenes de las búsquedas\nde rutas.\n\n---\n\n## RoadNetwork (\\`modelos/red_vial.py\\`)\n\nModela la red vial como un **grafo no dirigido ponderado** con listas de\nadyacencia. Los nodos son intersecciones o localidades, las aristas son\ncaminos y el peso es el tiempo de desplazamiento en minutos. Además guarda\ncoordenadas \\`(x, y)\\` por nodo para la heurística euclidiana de A*.\n\n### Representación interna\n\n\\`\\`\\`\nadyacencia:  nodo -> [(vecino, peso), (vecino, peso), ...]\ncoordenadas: nodo -> (x, y)\n\\`\\`\\`\n\nSe eligió lista de adyacencia (y no matriz) porque la red es **dispersa**:\n55 nodos y 115 aristas frente a las 1 485 parejas posibles. La lista usa\nO(V + E) memoria y permite iterar los vecinos de un nodo en tiempo\nproporcional a su grado, que es lo que necesitan BFS, Dijkstra y A*.\n\n### Operaciones\n\n| Operación | Precondición | Postcondición | Complejidad |\n|-----------|--------------|---------------|-------------|\n| \\`agregar_nodo(nodo, x, y)\\` | - | El nodo existe; si ya existía no se duplica; coordenadas registradas si se dieron | O(1) |\n| \\`agregar_arista(o, d, peso, bidireccional)\\` | \\`peso ≥ 0\\` | Ambos nodos existen y la arista aparece en la adyacencia de \\`o\\` (y de \\`d\\` si es bidireccional) | O(1) |\n| \\`vecinos(nodo)\\` | - | Lista de pares \\`(vecino, peso)\\`; vacía si el nodo no existe | O(1) |\n| \\`peso(o, d)\\` | - | Peso de la arista directa o \\`None\\` si no hay | O(grado(o)) |\n| \\`existe_nodo(nodo)\\` | - | \\`True\\` si el nodo está en el grafo | O(1) |\n| \\`nodos()\\` | - | Lista con todos los identificadores de nodos | O(V) |\n| \\`coordenadas(nodo)\\` | - | Par \\`(x, y)\\` o \\`None\\` | O(1) |\n| \\`distancia_euclidiana(a, b)\\` | - | Distancia en línea recta en km, o \\`None\\` si falta alguna coordenada | O(1) |\n| \\`cargar_desde_csv(nodos, aristas)\\` | Archivos con columnas \\`id,x,y\\` y \\`origen,destino,tiempo_minutos\\` | Devuelve la red completa | O(V + E) |\n\n### Invariantes\n\n1. Toda arista conecta nodos que existen en \\`adyacencia\\` (garantizado porque\n   \\`agregar_arista\\` crea los nodos que falten).\n2. En modo bidireccional, \\`(d, peso)\\` está en la lista de \\`o\\` si y solo si\n   \\`(o, peso)\\` está en la lista de \\`d\\`.\n3. \\`numero_aristas\\` cuenta aristas lógicas: una arista bidireccional se cuenta\n   una sola vez aunque aparezca en dos listas de adyacencia.\n\n### Nota sobre el uso de \\`dict\\`\n\nLa restricción \"no usar \\`dict\\`\" del enunciado aplica a la **tabla hash de la\nParte 2**, que es la estructura que debía implementarse desde cero (y así se\nhizo, ver [02_tabla_hash.md](02_tabla_hash.md)). Para la adyacencia del grafo\nse usa el diccionario nativo, como es estándar; de hecho la cola de prioridad\nde la Parte 3 sí reutiliza la \\`TablaHash\\` propia como índice interno para\ndemostrar su uso como componente.\n"
+            },
+            {
+                "file": "02_tabla_hash.md",
+                "title": "Parte 2: Tabla Hash propia (`estructuras/tabla_hash.py`)",
+                "tab": "Parte 2",
+                "content": "# Parte 2: Tabla Hash propia (\\`estructuras/tabla_hash.py\\`)\n\n\\`TablaHash\\` es un mapa clave→valor implementado desde cero, **sin usar el\n\\`dict\\` de Python**, tal como exige el enunciado. Almacena los incidentes por\n\\`id\\` y expone las métricas de colisiones y ocupación pedidas.\n\n## Diseño\n\n### Encadenamiento separado\n\nLa tabla es un arreglo de *buckets*; cada bucket es una lista de pares\n\\`[clave, valor]\\`:\n\n\\`\\`\\`\níndice 0: []\níndice 1: [[\"I-0102\", <Incident>]]\níndice 2: [[\"I-0044\", <Incident>], [\"I-0311\", <Incident>]]   <- colisión\n...\n\\`\\`\\`\n\nCuando dos claves caen en el mismo índice (colisión), simplemente conviven en\nla misma lista. Se eligió encadenamiento frente a direccionamiento abierto\nporque:\n\n* la eliminación es trivial (no necesita marcas *tombstone*),\n* el rendimiento se degrada suavemente cuando sube el factor de carga,\n* el código es más simple de razonar y de medir.\n\n### Función de dispersión: djb2\n\n\\`\\`\\`python\ncodigo = 5381\nfor caracter in clave:\n    codigo = (codigo * 33 + codigo_del_caracter) & 0xFFFFFFFF\nindice = codigo % capacidad\n\\`\\`\\`\n\ndjb2 es una función clásica para cadenas: mezcla cada carácter multiplicando\npor 33 y acumulando, truncado a 32 bits. Es barata (O(longitud de la clave)) y\ndistribuye bien claves con prefijos comunes como \\`I-0001 … I-0520\\`, que es\nexactamente nuestro caso.\n\n### Capacidades primas y redimensionamiento\n\n* La capacidad inicial es 17 y siempre se usa un **número primo**: al reducir\n  módulo un primo, los patrones regulares en los códigos hash (claves\n  consecutivas, pasos fijos) se reparten mejor entre los buckets.\n* Cuando el factor de carga supera **0.75**, la tabla crece al siguiente primo\n  mayor que el doble de la capacidad y **redispersa** todas las entradas\n  (\\`_redimensionar\\`, O(n)). Ese costo ocasional se amortiza: cada elemento se\n  redispersa O(log n) veces en total, así que la inserción sigue siendo O(1)\n  amortizado.\n\n## Operaciones\n\n| Operación | Precondición | Postcondición | Complejidad promedio | Peor caso |\n|-----------|--------------|---------------|----------------------|-----------|\n| \\`insertar(clave, valor)\\` | \\`clave\\` es \\`str\\` | La clave queda asociada al valor (reemplaza si existía); factor de carga ≤ 0.75 | O(1) amortizado | O(n) |\n| \\`buscar(clave)\\` | - | Devuelve el valor o \\`None\\`; no modifica la tabla | O(1) | O(n) |\n| \\`actualizar(clave, valor)\\` | - | Reemplaza el valor si la clave existe; devuelve \\`True\\`/\\`False\\` | O(1) | O(n) |\n| \\`eliminar(clave)\\` | - | La clave ya no está; devuelve \\`True\\` si existía | O(1) | O(n) |\n| \\`entradas()\\` / \\`valores()\\` | - | Lista de todos los pares/valores | O(n + capacidad) | - |\n| \\`estadisticas()\\` | - | \\`EstadisticasTabla\\` con las métricas; no modifica la tabla | O(capacidad) | - |\n\nEl peor caso O(n) ocurriría si todas las claves cayeran en el mismo bucket;\ncon djb2 + capacidad prima + factor de carga acotado, en la práctica los\nbuckets tienen 1–4 entradas (ver métricas abajo).\n\n## Métricas registradas\n\n\\`estadisticas()\\` devuelve un dataclass \\`EstadisticasTabla\\` con:\n\n| Métrica | Significado |\n|---------|-------------|\n| \\`elementos\\` | Número de pares almacenados (n) |\n| \\`capacidad\\` | Número de buckets (m) |\n| \\`factor_carga\\` | n / m |\n| \\`colisiones\\` | Veces que una inserción nueva cayó en un bucket ya ocupado (acumulado; las reinserciones internas del redimensionamiento no cuentan) |\n| \\`buckets_usados\\` | Buckets con al menos una entrada |\n| \\`bucket_maximo\\` | Longitud de la cadena más larga |\n\n## Resultados reales\n\nCon los 520 incidentes del escenario integrado:\n\n\\`\\`\\`\nTabla hash:  520 elementos en 1361 buckets\n  Factor de carga:  0.382\n  Colisiones:       307\n  Buckets usados:   484\n  Bucket maximo:    3\n\\`\\`\\`\n\nY el experimento de escalabilidad (500 búsquedas por fila, tiempos en ms):\n\n| n | capacidad | carga | colisiones | buckets usados | máx | inserción | búsqueda hash | búsqueda lineal |\n|---|-----------|-------|------------|----------------|-----|-----------|---------------|-----------------|\n| 100 | 163 | 0.613 | 47 | 60 | 2 | 0.40 | 0.76 | 0.86 |\n| 500 | 673 | 0.743 | 295 | 314 | 3 | 2.08 | 0.72 | 3.73 |\n| 1 000 | 1 361 | 0.735 | 750 | 522 | 4 | 3.72 | 1.17 | 9.42 |\n| 5 000 | 10 949 | 0.457 | 1 742 | 4 802 | 2 | 40.31 | 1.63 | 41.79 |\n| 20 000 | 43 853 | 0.456 | 4 968 | 18 504 | 3 | 106.11 | 1.05 | 219.74 |\n\nLectura de los resultados:\n\n* **La búsqueda es O(1) en la práctica**: el tiempo de las 500 búsquedas se\n  mantiene alrededor de 1 ms sin importar si la tabla tiene 100 o 20 000\n  claves, mientras la búsqueda lineal crece linealmente hasta 220 ms (unas\n  **200 veces más lenta** con 20 000 elementos).\n* **La cadena más larga nunca pasa de 4** aun con 20 000 claves, evidencia de\n  que djb2 + capacidad prima distribuyen uniformemente.\n* Las colisiones acumuladas (~25 % de las inserciones) son las esperadas para\n  un factor de carga en torno a 0.5–0.75; lo importante es que no se\n  concentran en pocos buckets.\n* El costo de inserción crece de forma prácticamente lineal con n (O(1)\n  amortizado por elemento, incluyendo los redimensionamientos intermedios).\n\n## Reutilización en el sistema\n\nAdemás de almacenar los incidentes en \\`main.py\\`, la \\`TablaHash\\` se reutiliza\nen dos lugares:\n\n1. \\`PriorityQueue\\` la usa como índice \\`id → posición en el heap\\` para poder\n   actualizar prioridades en O(log n).\n2. \\`reportes.zonas_mas_afectadas\\` la usa para contar incidentes por zona.\n"
+            },
+            {
+                "file": "03_heap_cola_prioridad.md",
+                "title": "Parte 3: Heap y Priority Queue (`estructuras/heap.py`, `estructuras/cola_prioridad.py`)",
+                "tab": "Parte 3",
+                "content": "# Parte 3: Heap y Priority Queue (\\`estructuras/heap.py\\`, \\`estructuras/cola_prioridad.py\\`)\n\nEl sistema tiene dos estructuras basadas en montículo binario:\n\n* **\\`MinHeap\\`**: montículo de mínimos genérico. Lo usan Dijkstra y A* como\n  frontera de exploración, y \\`top_k\\` de la cola de prioridad.\n* **\\`PriorityQueue\\`**: cola de prioridad **máxima** especializada en\n  incidentes, con actualización de prioridad en O(log n) gracias a un índice\n  de posiciones construido con la \\`TablaHash\\` propia.\n\n## El montículo binario sobre un arreglo\n\nUn montículo binario es un árbol binario completo guardado en un arreglo, sin\npunteros. Las relaciones padre/hijo se calculan con aritmética de índices:\n\n\\`\\`\\`\npadre(i)          = (i - 1) // 2\nhijo_izquierdo(i) = 2i + 1\nhijo_derecho(i)   = 2i + 2\n\narreglo:  [A, B, C, D, E, F]          A\níndices:   0  1  2  3  4  5         /   \\\\\n                                   B     C\n                                  / \\\\   /\n                                 D   E F\n\\`\\`\\`\n\n**Invariante de montículo (mín)**: todo nodo es ≤ que sus hijos. Por lo tanto\nel mínimo global siempre está en la raíz (índice 0).\n\nLas dos operaciones de reparación restauran el invariante moviéndose por un\nsolo camino raíz–hoja, de longitud ⌊log₂ n⌋:\n\n* **Flotar** (*sift up*): tras insertar al final, el nuevo elemento sube\n  intercambiándose con su padre mientras lo viole.\n* **Hundir** (*sift down*): tras extraer la raíz se coloca el último elemento\n  arriba y baja intercambiándose con el menor de sus hijos.\n\n## \\`MinHeap\\`\n\nGuarda tuplas \\`(prioridad, elemento)\\` y **compara únicamente la prioridad**,\npor lo que los elementos no necesitan ser comparables entre sí.\n\n| Operación | Precondición | Postcondición | Complejidad |\n|-----------|--------------|---------------|-------------|\n| \\`insertar(prioridad, elemento)\\` | prioridad comparable | El par queda en el montículo; invariante restaurado | O(log n) |\n| \\`extraer_minimo()\\` | montículo no vacío (si no, \\`IndexError\\`) | Devuelve el par de menor prioridad y lo elimina | O(log n) |\n| \\`minimo()\\` | montículo no vacío | Devuelve el par mínimo sin extraerlo | O(1) |\n\n## \\`PriorityQueue\\` (cola de prioridad máxima de incidentes)\n\nCada entrada del arreglo es un par mutable \\`[prioridad, incidente]\\` y el\ninvariante es de **máximos**: la raíz es siempre el incidente más urgente.\nLa prioridad con la que se inserta cada incidente es su\n\\`prioridad_efectiva = base × (1 + horas_de_espera)\\` (ver\n[01_diseno_adt.md](01_diseno_adt.md)).\n\n### El índice de posiciones\n\nPara \\`actualizar_prioridad\\` hace falta localizar un incidente dentro del\narreglo; una búsqueda lineal costaría O(n). La cola mantiene una \\`TablaHash\\`\n\\`id → índice\\` que se actualiza en cada intercambio (\\`_intercambiar\\`), de modo\nque localizar cuesta O(1) y la operación completa O(log n). Es el mismo\ntruco que usan los *indexed heaps* de los libros de texto, construido aquí\nsobre la tabla hash de la Parte 2.\n\n### Operaciones\n\n| Operación | Precondición | Postcondición | Complejidad |\n|-----------|--------------|---------------|-------------|\n| \\`insertar(incidente, prioridad)\\` | \\`incidente.id\\` no está en la cola | El incidente queda encolado e indexado | O(log n) |\n| \\`extraer_mas_urgente()\\` | cola no vacía (si no, \\`IndexError\\`) | Devuelve \\`(prioridad, incidente)\\` con prioridad máxima y lo elimina del heap y del índice | O(log n) |\n| \\`actualizar_prioridad(id, nueva)\\` | - | Si el id existe: prioridad cambiada e invariante restaurado (flota si subió, se hunde si bajó); devuelve \\`True\\`/\\`False\\` | O(log n) |\n| \\`top_k(k)\\` | \\`k ≥ 0\\` | Lista de los k pares más urgentes en orden descendente, **sin modificar la cola** | O(n log n) |\n\n\\`top_k\\` copia las entradas en un \\`MinHeap\\` auxiliar con prioridades negadas y\nextrae k veces. Se aceptó O(n log n) a cambio de no mutar la cola real ni\nduplicar la lógica del heap; para los tamaños del sistema (n = 520, k = 10) es\ninstantáneo.\n\n### Por qué máximos y no mínimos\n\nLa urgencia crece con la prioridad efectiva, así que la extracción natural es\n\"dame el mayor\". En lugar de negar prioridades sobre el \\`MinHeap\\` genérico, la\ncola implementa sus propios \\`_flotar\\`/\\`_hundir\\` de máximos porque de todas\nformas necesita engancharse en cada intercambio para mantener el índice de\nposiciones - algo que el \\`MinHeap\\` genérico, pensado como frontera efímera\nde Dijkstra/A*, no necesita.\n\n## Resultados reales\n\nExperimento 2 (tiempos totales en ms; \"por elem\" en µs):\n\n| n | inserción | por elem | 200 updates | extracción | por elem |\n|---|-----------|----------|-------------|------------|----------|\n| 500 | 4.31 | 8.62 | 1.83 | 18.04 | 36.08 |\n| 2 000 | 20.60 | 10.30 | 2.87 | 76.18 | 38.09 |\n| 10 000 | 118.96 | 11.90 | 3.99 | 624.22 | 62.42 |\n| 50 000 | 773.10 | 15.46 | 5.43 | 4 240.89 | 84.82 |\n\n* El costo por elemento crece muy despacio al multiplicar n por 100\n  (8.6 → 15.5 µs al insertar), el comportamiento esperado de O(log n):\n  log₂(500) ≈ 9 frente a log₂(50 000) ≈ 15.6.\n* Las 200 actualizaciones tardan pocos ms incluso con 50 000 elementos:\n  la localización O(1) vía tabla hash evita el barrido lineal.\n* La extracción es más cara que la inserción porque \\`_hundir\\` compara con dos\n  hijos en cada nivel y cada intercambio actualiza dos entradas del índice de\n  posiciones; sigue siendo logarítmica.\n\nEn el escenario integrado, la cola con 520 incidentes entrega como más urgente\na \\`I-0102\\` (prioridad 364.0) y el \\`top_k(10)\\` coincide exactamente con el\nordenamiento completo por prioridad efectiva de la Parte 4: dos caminos\ndistintos que validan el mismo resultado.\n"
+            },
+            {
+                "file": "04_ordenamiento.md",
+                "title": "Parte 4: Ordenamiento (`algoritmos/ordenamiento.py`, `reportes.py`)",
+                "tab": "Parte 4",
+                "content": "# Parte 4: Ordenamiento (\\`algoritmos/ordenamiento.py\\`, \\`reportes.py\\`)\n\nSe implementaron **MergeSort** y **QuickSort**. Ambos reciben un parámetro\n\\`clave\\` (como el \\`key\\` de \\`sorted\\`) y devuelven una lista nueva sin modificar\nla original, lo que permite ordenar incidentes por timestamp, por prioridad o\nzonas por frecuencia con la misma función.\n\n## MergeSort\n\nEstrategia *divide y vencerás*:\n\n1. Dividir la lista por la mitad.\n2. Ordenar recursivamente cada mitad.\n3. **Mezclar** las dos mitades ya ordenadas recorriéndolas en paralelo y\n   tomando siempre el menor frente (\\`_mezclar\\`, O(n)).\n\nLa recurrencia es \\`T(n) = 2T(n/2) + O(n)\\`, es decir **O(n log n) garantizado**\nen el mejor, promedio y peor caso, con O(n) de memoria auxiliar.\n\nEs **estable**: cuando hay empate (\\`<=\\` en la mezcla) gana el elemento de la\nmitad izquierda, así que los elementos con claves iguales conservan su orden\nrelativo original. Por eso es el algoritmo usado en los reportes por\ntimestamp y por frecuencia de zona, donde los empates son frecuentes.\n\n## QuickSort\n\nSe implementó con **partición de tres vías y pivote central**:\n\n1. Elegir como pivote la clave del elemento central.\n2. Partir la lista en \\`menores\\`, \\`iguales\\` y \\`mayores\\` que el pivote.\n3. Ordenar recursivamente \\`menores\\` y \\`mayores\\` y concatenar.\n\nComplejidad: **O(n log n) promedio, O(n²) en el peor caso** (particiones\nsistemáticamente desbalanceadas). Las dos decisiones de diseño atacan\njustamente los peores casos clásicos:\n\n* **Pivote central**: una lista ya ordenada o invertida (casos habituales en\n  reportes) parte siempre por la mitad, en lugar de degenerar como lo haría\n  el pivote en el primer o último elemento.\n* **Tres vías**: todos los duplicados del pivote quedan resueltos en la\n  partición, así que listas con muchas claves repetidas (por ejemplo,\n  prioridades 1–5) no degradan el rendimiento.\n\nEsta variante usa O(n) memoria extra por las tres sublistas; se prefirió la\nclaridad frente a la versión *in place*, y el experimento confirma que sigue\nsiendo competitiva.\n\n## Comparación teórica\n\n| | MergeSort | QuickSort (3 vías) |\n|---|-----------|--------------------|\n| Mejor caso | O(n log n) | O(n log n) |\n| Promedio | O(n log n) | O(n log n) |\n| Peor caso | **O(n log n)** | O(n²) (improbable con pivote central) |\n| Memoria extra | O(n) | O(n) en esta variante |\n| Estable | **Sí** | No en general |\n| Fortaleza | Garantías y estabilidad | Rápido en la práctica, inmune a duplicados |\n\n## Resultados experimentales\n\nExperimento 3, tiempos en ms (\\`sorted()\\` de Python como referencia):\n\n| n | caso | merge_sort | quick_sort | sorted() |\n|---|------|-----------|------------|----------|\n| 1 000 | aleatorio | 4.91 | 7.19 | 0.27 |\n| 1 000 | ordenado | 6.00 | 6.00 | 0.02 |\n| 1 000 | inverso | 6.72 | 4.85 | 0.02 |\n| 5 000 | aleatorio | 22.95 | 16.06 | 0.53 |\n| 5 000 | ordenado | 20.32 | 15.56 | 0.03 |\n| 5 000 | inverso | 14.48 | 11.80 | 0.02 |\n| 15 000 | aleatorio | 73.67 | 59.77 | 1.94 |\n| 15 000 | ordenado | 45.30 | 38.67 | 0.22 |\n| 15 000 | inverso | 65.70 | 38.97 | 0.25 |\n\nDiscusión:\n\n* **Ambos escalan como n log n**: al multiplicar n por 15 (1 000 → 15 000) el\n  tiempo se multiplica por ~13–15, no por 225 como haría un O(n²).\n* **QuickSort gana a MergeSort en listas grandes** (~20 % menos tiempo con\n  n = 15 000): sus particiones por comprensión de listas recorren la memoria\n  secuencialmente, mientras la mezcla de MergeSort alterna entre dos listas.\n* **Los casos ordenado e inverso no degradan a QuickSort** - incluso son más\n  rápidos que el aleatorio - validando la elección de pivote central + tres\n  vías. Con pivote en el primer elemento estos casos serían O(n²).\n* \\`sorted()\\` es ~30 veces más rápido: es Timsort implementado en C. La\n  comparación es útil como referencia de cuánto pesa el intérprete, no como\n  competencia: el objetivo de la parte es implementar y analizar los\n  algoritmos.\n\n## Los tres reportes (\\`reportes.py\\`)\n\n| Reporte | Orden | Algoritmo | Por qué |\n|---------|-------|-----------|---------|\n| \\`incidentes_mas_antiguos\\` | timestamp ascendente | MergeSort | Estable: empates de fecha conservan orden de llegada |\n| \\`incidentes_mas_criticos\\` | prioridad efectiva descendente | QuickSort | Claves float casi únicas, el caso ideal de QuickSort |\n| \\`zonas_mas_afectadas\\` | frecuencia descendente | MergeSort | Cuenta con la \\`TablaHash\\` propia y ordena los pares (zona, total) |\n\nSalida real del escenario (top 5 de cada reporte):\n\n\\`\\`\\`\nIncidentes mas antiguos:            Zonas con mas incidentes:\n  I-0065  2026-07-01 12:00  Z-09      Z-03   22 incidentes\n  I-0089  2026-07-01 12:03  Z-21      Z-23   20 incidentes\n  I-0324  2026-07-01 12:05  Z-37      Z-39   19 incidentes\n  I-0102  2026-07-01 12:11  Z-18      Z-18   18 incidentes\n  I-0487  2026-07-01 12:11  Z-32      Z-08   17 incidentes\n\\`\\`\\`\n"
+            },
+            {
+                "file": "05_red_vial_grafos.md",
+                "title": "Parte 5: Grafos: la red vial (`modelos/red_vial.py`, `generar_datos.py`)",
+                "tab": "Parte 5",
+                "content": "# Parte 5: Grafos: la red vial (\\`modelos/red_vial.py\\`, \\`generar_datos.py\\`)\n\n## Modelo\n\nLa red vial es un **grafo no dirigido, conexo y ponderado**:\n\n* **Nodos**: 4 centros de emergencia (\\`C-NORTE\\`, \\`C-SUR\\`, \\`C-ORIENTE\\`,\n  \\`C-PONIENTE\\`) y 51 zonas (\\`Z-01\\` … \\`Z-51\\`). Total: **55 nodos** (mínimo\n  exigido: 50). Cada nodo tiene coordenadas \\`(x, y)\\` en un plano de\n  100 × 100 km.\n* **Aristas**: **115 caminos** (mínimo exigido: 100), bidireccionales.\n* **Peso**: tiempo de desplazamiento en **minutos**, calculado como\n  \\`distancia_euclidiana / velocidad_de_la_via × 60\\` con velocidades entre\n  30 y 55 km/h por arista.\n\n\\`\\`\\`\nEjemplo (datos/aristas.csv):\norigen,destino,tiempo_minutos\nC-NORTE,Z-24,11.5\nC-SUR,Z-38,20.9\nZ-18,Z-29,21.6\n\\`\\`\\`\n\nLa representación interna es una lista de adyacencia (ver\n[01_diseno_adt.md](01_diseno_adt.md)); el grafo se carga desde CSV con\n\\`RoadNetwork.cargar_desde_csv\\`, cumpliendo la opción \"CSV\" del enunciado.\n\n## Formatos de archivo\n\n| Archivo | Columnas | Contenido |\n|---------|----------|-----------|\n| \\`datos/nodos.csv\\` | \\`id,x,y\\` | 55 nodos con coordenadas en km |\n| \\`datos/aristas.csv\\` | \\`origen,destino,tiempo_minutos\\` | 115 aristas no dirigidas |\n| \\`datos/centros.csv\\` | \\`id,nombre,ubicacion\\` | Los 4 centros de emergencia |\n| \\`datos/incidentes.csv\\` | \\`id,ubicacion,prioridad,tipo,timestamp,estado\\` | 520 incidentes |\n\n## Generación del dataset (\\`generar_datos.py\\`)\n\nTodo se genera con \\`random.Random(20260704)\\`: **misma semilla, mismo dataset**,\nlo que hace reproducibles las evidencias y los experimentos.\n\n### Topología de la red\n\n1. **Colocación**: los 4 centros se fijan en los cuatro puntos cardinales del\n   mapa y las 51 zonas se dispersan con coordenadas uniformes.\n2. **Vecinos cercanos**: cada nodo se conecta con sus 3 vecinos más próximos\n   (distancia euclidiana). Esto produce una malla local realista: los caminos\n   conectan lugares próximos entre sí.\n3. **Conectividad garantizada**: con un *union-find* se detectan las\n   componentes conexas y se agrega la arista más corta entre componentes\n   hasta que quede una sola. Sin este paso, BFS/Dijkstra podrían no encontrar\n   ruta hacia algunas zonas.\n4. **Atajos**: se agregan aristas aleatorias (entre nodos a menos de 50 km)\n   hasta llegar a 115, creando rutas alternativas que hacen interesante la\n   comparación entre algoritmos.\n\n### Pesos y velocidades\n\nCada arista recibe una velocidad aleatoria entre 30 y 55 km/h, simulando vías\nde distinta calidad. El peso es el tiempo de recorrido en minutos. La\nvelocidad máxima real (55) se mantiene **por debajo** de la constante\n\\`VELOCIDAD_MAXIMA_KMH = 60\\` que usa la heurística de A*: así la heurística\nnunca sobreestima el tiempo real ni siquiera con el redondeo a un decimal, y\nse garantiza su admisibilidad (ver\n[06_algoritmos_busqueda.md](06_algoritmos_busqueda.md)).\n\n### Incidentes\n\n* 520 incidentes (mínimo exigido: 500) con id \\`I-0001\\` … \\`I-0520\\`.\n* Cada zona recibe un peso de aparición aleatorio (0.5–4.0), de modo que unas\n  zonas concentran más incidentes que otras y el reporte \"zonas más\n  afectadas\" muestra diferencias reales (Z-03 acumula 22, otras solo 2–3).\n* La prioridad base 1–5 sigue la distribución \\`[10, 20, 30, 25, 15] %\\`,\n  con predominio de severidades medias, como en un triaje real.\n* Los timestamps se reparten en las 72 horas previas a la fecha de referencia\n  (2026-07-04 12:00), lo que produce un rango amplio de factores de espera.\n* Todos parten en estado \\`pendiente\\`; el estado evoluciona durante el\n  escenario integrado.\n\n## Estadísticas del grafo generado\n\n| Métrica | Valor |\n|---------|-------|\n| Nodos | 55 (4 centros + 51 zonas) |\n| Aristas | 115 |\n| Grado promedio | 2 × 115 / 55 ≈ 4.2 |\n| Densidad | 115 / (55 × 54 / 2) ≈ 7.7 % |\n| Conexo | Sí (garantizado por construcción) |\n\nCon una densidad del 8 %, la lista de adyacencia usa ~230 pares frente a las\n3 025 celdas de una matriz de adyacencia - la representación elegida es la\nadecuada para un grafo disperso.\n"
+            },
+            {
+                "file": "06_algoritmos_busqueda.md",
+                "title": "Parte 6: Algoritmos de búsqueda (`algoritmos/busqueda.py`)",
+                "tab": "Parte 6",
+                "content": "# Parte 6: Algoritmos de búsqueda (\\`algoritmos/busqueda.py\\`)\n\nSe implementaron los dos algoritmos obligatorios -**BFS** y **UCS/Dijkstra**-\ny la extensión opcional **A\\\\***. Los tres devuelven un \\`ResultadoBusqueda\\`\ncon los campos exigidos por el enunciado:\n\n| Campo | Contenido |\n|-------|-----------|\n| \\`ruta\\` | Secuencia de nodos desde el origen hasta el destino (vacía si no hay ruta) |\n| \\`costo\\` | Costo acumulado de la ruta en minutos (\\`inf\\` si no hay ruta) |\n| \\`nodos_visitados\\` | Nodos **expandidos**, en orden de expansión |\n| \\`tramos\\` | Número de aristas de la ruta (propiedad derivada) |\n\n\"Visitado\" significa aquí *expandido*: el nodo salió de la frontera y se\nprocesaron sus vecinos. Es la métrica estándar para comparar cuánto trabajo\nhizo cada algoritmo.\n\n## BFS: búsqueda en anchura\n\nExplora el grafo por niveles con una cola FIFO (\\`collections.deque\\`),\nmarcando cada nodo al descubrirlo. Garantiza la ruta con **menos tramos**,\npero **ignora los pesos**: una ruta de 3 tramos lentos puede costar más\nminutos que una de 6 tramos rápidos.\n\n* Complejidad: **O(V + E)** tiempo, O(V) memoria.\n* El costo en minutos se calcula *a posteriori* sumando los pesos de la ruta\n  encontrada (\\`_costo_de_ruta\\`), solo con fines de comparación.\n\n## Dijkstra / UCS: costo uniforme\n\nExpande siempre el nodo de **menor costo acumulado** usando el \\`MinHeap\\`\npropio como frontera. Al expandir un nodo su costo es definitivo (con pesos\nno negativos), así que al llegar al destino la ruta es **óptima en minutos**.\n\nDetalles de implementación:\n\n* **Eliminación perezosa**: si se encuentra un camino mejor hacia un nodo que\n  ya está en la frontera, se inserta una nueva entrada en vez de reubicar la\n  vieja; las entradas obsoletas se descartan al salir (\\`if actual in\n  expandidos: continue\\`). Es la variante estándar cuando el heap no soporta\n  *decrease-key*, y mantiene el heap simple.\n* Complejidad: **O((V + E) log V)** tiempo, O(V + E) memoria.\n\nDijkstra desde un origen único hacia un destino es exactamente **UCS**\n(búsqueda de costo uniforme): misma frontera ordenada por g(n), misma\ngarantía de optimalidad.\n\n## A*: costo uniforme guiado por heurística\n\nA* ordena la frontera por \\`f(n) = g(n) + h(n)\\`, donde g es el costo acumulado\ny h una **estimación optimista** de lo que falta. Se implementó con un motor\ncomún (\\`_busqueda_de_costo_minimo\\`) que reciben tanto Dijkstra (con \\`h = 0\\`)\ncomo A*: la única diferencia entre ambos algoritmos es la heurística, y el\ncódigo lo refleja literalmente.\n\n### La heurística y su admisibilidad\n\n\\`\\`\\`\nh(n) = distancia_euclidiana(n, destino) / VELOCIDAD_MAXIMA_KMH × 60   [minutos]\n\\`\\`\\`\n\nEs el tiempo que tomaría volar en línea recta a la velocidad máxima teórica\n(60 km/h). Es **admisible** (nunca sobreestima) porque:\n\n1. Ninguna ruta real es más corta que la línea recta (desigualdad\n   triangular de la distancia euclidiana), y\n2. ninguna vía supera los 55 km/h reales < 60 km/h de referencia (el margen\n   absorbe además el redondeo de pesos a un decimal).\n\nTambién es **consistente** (\\`h(a) ≤ peso(a,b) + h(b)\\`), por lo que la\nvariante con conjunto de expandidos preserva la optimalidad. Resultado: A*\nencuentra siempre la misma ruta óptima que Dijkstra, expandiendo menos nodos\nporque descarta direcciones que alejan del destino.\n\n## Comparación teórica\n\n| | BFS | Dijkstra/UCS | A* |\n|---|-----|--------------|-----|\n| Frontera | Cola FIFO | MinHeap por g(n) | MinHeap por g(n) + h(n) |\n| Óptimo en tramos | **Sí** | No necesariamente | No necesariamente |\n| Óptimo en minutos | No | **Sí** | **Sí** (h admisible) |\n| Complejidad | O(V + E) | O((V+E) log V) | O((V+E) log V), menos expansiones |\n| Necesita | - | pesos ≥ 0 | pesos ≥ 0 + coordenadas |\n\n## Resultados reales\n\n### Escenario integrado (C-SUR → Z-18)\n\n\\`\\`\\`\nAlgoritmo       Tramos  Costo (min)  Visitados\nBFS                  3         67.9         33\nDijkstra/UCS         3         67.9         23\nA*                   3         67.9          9\n\\`\\`\\`\n\nAquí la ruta con menos tramos coincide con la óptima, pero el trabajo\nrealizado difiere: A* expandió **9 nodos contra 33 de BFS** para llegar a la\nmisma respuesta.\n\n### Promedios del experimento 4 (8 pares centro→zona)\n\n| Algoritmo | Costo promedio (min) | Nodos visitados | Tiempo |\n|-----------|----------------------|-----------------|--------|\n| BFS | 120.9 | 36.5 | 0.041 ms |\n| Dijkstra | **108.8** | 34.1 | 0.190 ms |\n| A* | **108.8** | **17.9** | 0.131 ms |\n\nCasos ilustrativos del experimento:\n\n* \\`C-SUR → Z-48\\`: BFS eligió 5 tramos con costo **192.2**; la ruta óptima de\n  Dijkstra/A* usa 6 tramos pero cuesta **146.8** - un 24 % menos. Menos\n  tramos no significa menos tiempo.\n* \\`C-ORIENTE → Z-18\\`: A* expandió 7 nodos donde Dijkstra necesitó 17, con el\n  mismo costo (72.0).\n\nConclusiones:\n\n1. **BFS** es el más barato de ejecutar pero entrega rutas en promedio 11 %\n   más costosas: solo es correcto cuando todas las aristas pesan lo mismo.\n2. **Dijkstra** garantiza la ruta de tiempo mínimo, el criterio que importa en\n   una emergencia.\n3. **A\\\\*** entrega exactamente la misma ruta óptima expandiendo la mitad de\n   los nodos que Dijkstra (y hasta 4 veces menos). En un grafo de 55 nodos la\n   diferencia de milisegundos es irrelevante, pero la reducción de expansiones\n   es la que escala a redes viales reales de millones de nodos.\n"
+            },
+            {
+                "file": "07_escenario_integrado.md",
+                "title": "Parte 7: Escenario integrado (`main.py`)",
+                "tab": "Parte 7",
+                "content": "# Parte 7: Escenario integrado (\\`main.py\\`)\n\n\\`main.py\\` ejecuta el flujo completo exigido por el enunciado, integrando todas\nlas piezas del sistema. Cada paso imprime evidencia verificable.\n\n\\`\\`\\`mermaid\nflowchart TD\n    A[incidentes.csv<br>nodos.csv / aristas.csv / centros.csv] --> B[PASO 1<br>Carga de datos]\n    B --> C[PASO 2<br>TablaHash + PriorityQueue]\n    C --> D[PASO 3<br>extraer_mas_urgente]\n    D --> E[PASO 4<br>Dijkstra desde cada centro]\n    E --> F[PASO 5<br>BFS vs Dijkstra vs A*]\n    F --> G[PASO 6<br>actualizar estado / eliminar]\n    G --> H[PASO 7<br>Reportes ordenados]\n    H --> I[RESUMEN FINAL]\n\\`\\`\\`\n\n## Paso a paso\n\n### Paso 1: Carga\n\nSe leen los cuatro CSV: 520 incidentes, 4 centros y la red de 55 nodos y 115\naristas. La **hora de referencia** para calcular esperas es el timestamp del\nincidente más reciente (\\`2026-07-04 11:59\\`), lo que hace la corrida\nreproducible sin depender del reloj del sistema.\n\n### Paso 2: Inserción en las estructuras\n\nCada incidente se inserta en la \\`TablaHash\\` (clave = id) y en la\n\\`PriorityQueue\\` (prioridad = \\`prioridad_efectiva\\`). Se imprimen las métricas\nde la tabla:\n\n\\`\\`\\`\nTabla hash:  520 elementos en 1361 buckets\n  Factor de carga:  0.382   Colisiones: 307\n  Buckets usados:   484     Bucket maximo: 3\n\\`\\`\\`\n\ny el **Top-10 de incidentes críticos** vía \\`top_k(10)\\` - los diez son\nseveridad 5 con 64–72 h de espera, coherente con la fórmula de prioridad.\nAdemás se demuestra \\`actualizar_prioridad\\`: el incidente \\`I-0100\\` se\n\"reclasifica\" duplicando su prioridad (47.6 → 95.2) y la cola se reordena en\nO(log n).\n\n### Paso 3: Extracción del más urgente\n\n\\`\\`\\`\nIncidente: I-0102   (incendio en Z-18)\n  Prioridad base 5, 71.8 h de espera -> prioridad efectiva 364.0\n\\`\\`\\`\n\n\\`extraer_mas_urgente()\\` lo saca de la cola en O(log n). Nótese que también\nera el primero del Top-10 y del reporte ordenado por QuickSort: tres caminos\nindependientes que coinciden.\n\n### Paso 4: Centro más cercano\n\nSe ejecuta Dijkstra **desde cada centro** hacia \\`Z-18\\` y se elige el de menor\ncosto:\n\n| Centro | Costo (min) | Tramos | Visitados |\n|--------|-------------|--------|-----------|\n| C-NORTE | 84.6 | 4 | 23 |\n| **C-SUR** | **67.9** | 3 | 23 |\n| C-ORIENTE | 72.0 | 4 | 17 |\n| C-PONIENTE | 68.7 | 4 | 20 |\n\nCon 4 centros son 4 búsquedas de ~0.2 ms; la solución es simple y exacta.\n\n### Paso 5: Comparación de algoritmos\n\nSobre el par elegido (\\`C-SUR → Z-18\\`) se ejecutan BFS, Dijkstra y A*. Los\ntres encuentran la misma ruta en este caso, pero A* expande 9 nodos frente a\n23 de Dijkstra y 33 de BFS (análisis completo en\n[06_algoritmos_busqueda.md](06_algoritmos_busqueda.md)).\n\n\\`\\`\\`\nRuta sugerida (3 tramos): C-SUR -> Z-38 -> Z-29 -> Z-18\n\\`\\`\\`\n\n### Paso 6: Mantenimiento de la tabla hash\n\nSe demuestran las operaciones restantes de la Parte 2 sobre datos vivos:\n\n* \\`actualizar\\`: el estado de \\`I-0102\\` pasa a \\`asignado\\` y se verifica con\n  \\`buscar\\`.\n* \\`eliminar\\`: \\`I-0008\\` se elimina (simulando una cancelación); la búsqueda\n  posterior devuelve \\`None\\` y el conteo baja a 519.\n\n### Paso 7: Reportes\n\nLos tres reportes de la Parte 4 sobre los datos completos: más antiguos\n(MergeSort por timestamp), más críticos (QuickSort por prioridad efectiva) y\nzonas más afectadas (conteo con \\`TablaHash\\` + MergeSort por frecuencia).\n\n### Resumen final\n\n\\`\\`\\`\nIncidente asignado: I-0102 (incendio en Z-18)\nPrioridad:          364.0\nCentro asignado:    Centro de Emergencia Sur\nRuta sugerida:      C-SUR -> Z-38 -> Z-29 -> Z-18\nCosto total:        67.9 minutos\nTiempo estimado:    1h 08m\n\\`\\`\\`\n\nLos cinco campos exigidos por el enunciado (incidente, prioridad, ruta, costo\ntotal y tiempo estimado) quedan en pantalla.\n\n## Estructuras y algoritmos usados por paso\n\n| Paso | Estructura / algoritmo | Operación clave |\n|------|------------------------|-----------------|\n| 1 | \\`Incident.desde_fila_csv\\`, \\`RoadNetwork.cargar_desde_csv\\` | Parsing O(n), O(V+E) |\n| 2 | \\`TablaHash\\`, \\`PriorityQueue\\` | \\`insertar\\` O(1) / O(log n); \\`top_k\\`; \\`actualizar_prioridad\\` |\n| 3 | \\`PriorityQueue\\` | \\`extraer_mas_urgente\\` O(log n) |\n| 4 | Dijkstra × 4 centros | O((V+E) log V) cada una |\n| 5 | BFS, Dijkstra, A* | Comparación de expansiones y costos |\n| 6 | \\`TablaHash\\` | \\`actualizar\\`, \\`eliminar\\`, \\`buscar\\` O(1) |\n| 7 | MergeSort, QuickSort, \\`TablaHash\\` | Reportes O(n log n) |\n"
+            },
+            {
+                "file": "08_analisis_experimental.md",
+                "title": "Análisis experimental (`experimentos.py`)",
+                "tab": "08. Análisis",
+                "content": "# Análisis experimental (\\`experimentos.py\\`)\n\n## Metodología\n\n* Tiempos medidos con \\`time.perf_counter()\\` (el reloj de mayor resolución de\n  la librería estándar), reportados en ms totales y µs por operación.\n* Todos los generadores aleatorios usan semillas fijas: los experimentos son\n  **reproducibles** ejecutando \\`python experimentos.py\\`.\n* Datos sintéticos para hashing, heap y ordenamiento (tamaños crecientes);\n  para grafos se usa la red vial real del proyecto (55 nodos, 115 aristas).\n* Entorno de las mediciones citadas: Python 3.13.4 sobre Windows 11.\n\n---\n\n## Experimento 1: Tabla hash\n\n**Pregunta**: ¿la tabla mantiene O(1) al crecer, y cuánto mejora frente a una\nbúsqueda lineal? Se insertan n claves y luego se ejecutan 500 búsquedas\naleatorias sobre la tabla y sobre una lista de pares.\n\n| n | capacidad | carga | colisiones | buckets | máx | inserción | 500 búsq. hash | 500 búsq. lineal |\n|---|-----------|-------|------------|---------|-----|-----------|----------------|------------------|\n| 100 | 163 | 0.613 | 47 | 60 | 2 | 0.40 ms | 0.76 ms | 0.86 ms |\n| 500 | 673 | 0.743 | 295 | 314 | 3 | 2.08 ms | 0.72 ms | 3.73 ms |\n| 1 000 | 1 361 | 0.735 | 750 | 522 | 4 | 3.72 ms | 1.17 ms | 9.42 ms |\n| 5 000 | 10 949 | 0.457 | 1 742 | 4 802 | 2 | 40.31 ms | 1.63 ms | 41.79 ms |\n| 20 000 | 43 853 | 0.456 | 4 968 | 18 504 | 3 | 106.11 ms | 1.05 ms | 219.74 ms |\n\n**Discusión**: el tiempo de búsqueda en la tabla es plano (~1 ms) mientras el\nlineal crece proporcionalmente a n, hasta ser **200× más lento** con 20 000\nclaves. El redimensionamiento mantiene el factor de carga ≤ 0.75 y el bucket\nmás largo nunca pasa de 4 entradas: djb2 con capacidades primas distribuye\nuniformemente las claves \\`I-xxxxx\\` pese a sus prefijos idénticos. La\ninserción total crece linealmente con n, confirmando el O(1) amortizado por\nelemento aun pagando los redimensionamientos.\n\n---\n\n## Experimento 2: Cola de prioridad (heap)\n\n**Pregunta**: ¿inserción y extracción se comportan como O(log n)? Se insertan\nn incidentes sintéticos con prioridades aleatorias, se actualizan 200\nprioridades y se extrae todo.\n\n| n | inserción | por elem | 200 updates | extracción | por elem |\n|---|-----------|----------|-------------|------------|----------|\n| 500 | 4.31 ms | 8.62 µs | 1.83 ms | 18.04 ms | 36.08 µs |\n| 2 000 | 20.60 ms | 10.30 µs | 2.87 ms | 76.18 ms | 38.09 µs |\n| 10 000 | 118.96 ms | 11.90 µs | 3.99 ms | 624.22 ms | 62.42 µs |\n| 50 000 | 773.10 ms | 15.46 µs | 5.43 ms | 4 240.89 ms | 84.82 µs |\n\n**Discusión**: multiplicar n por 100 solo multiplica el costo unitario por\n~1.8 (inserción) y ~2.4 (extracción); crecimiento logarítmico, coherente con\nlog₂(500) ≈ 9 vs log₂(50 000) ≈ 15.6. La extracción es más cara porque\n\\`_hundir\\` compara con dos hijos por nivel y cada intercambio actualiza el\níndice de posiciones en la \\`TablaHash\\`; ese es el precio de poder actualizar\nprioridades en O(log n), que a cambio hace que 200 actualizaciones cuesten\nmilisegundos incluso con 50 000 elementos (sin índice serían 200 barridos\nO(n)).\n\n---\n\n## Experimento 3: Ordenamiento\n\n**Pregunta**: ¿cómo se comparan MergeSort y QuickSort entre sí y contra el\n\\`sorted()\\` nativo, incluyendo los casos patológicos clásicos?\n\n| n | caso | merge_sort | quick_sort | sorted() |\n|---|------|-----------|------------|----------|\n| 1 000 | aleatorio | 4.91 ms | 7.19 ms | 0.27 ms |\n| 1 000 | ordenado | 6.00 ms | 6.00 ms | 0.02 ms |\n| 1 000 | inverso | 6.72 ms | 4.85 ms | 0.02 ms |\n| 5 000 | aleatorio | 22.95 ms | 16.06 ms | 0.53 ms |\n| 5 000 | ordenado | 20.32 ms | 15.56 ms | 0.03 ms |\n| 5 000 | inverso | 14.48 ms | 11.80 ms | 0.02 ms |\n| 15 000 | aleatorio | 73.67 ms | 59.77 ms | 1.94 ms |\n| 15 000 | ordenado | 45.30 ms | 38.67 ms | 0.22 ms |\n| 15 000 | inverso | 65.70 ms | 38.97 ms | 0.25 ms |\n\n**Discusión**: ambos escalan como n log n (×15 en n ⇒ ×13–15 en tiempo).\nQuickSort con pivote central y partición de tres vías **no degenera** en los\ncasos ordenado/inverso - al contrario, son sus mejores casos - y supera a\nMergeSort en listas grandes. \\`sorted()\\` (Timsort en C) es ~30× más rápido y\nademás explota el orden preexistente (0.22 ms para 15 000 ya ordenados); la\nbrecha mide el costo del intérprete, no un defecto de los algoritmos. Detalle\ncompleto en [04_ordenamiento.md](04_ordenamiento.md).\n\n---\n\n## Experimento 4: Búsqueda en grafos\n\n**Pregunta**: ¿cuánto cuesta la optimalidad (Dijkstra vs BFS) y cuánto ahorra\nla heurística (A* vs Dijkstra)? 8 pares centro→zona aleatorios sobre la red\nreal.\n\nPromedios de los 8 pares:\n\n| Algoritmo | Costo (min) | Nodos visitados | Tiempo |\n|-----------|-------------|-----------------|--------|\n| BFS | 120.9 | 36.5 | 0.041 ms |\n| Dijkstra | **108.8** | 34.1 | 0.190 ms |\n| A* | **108.8** | **17.9** | 0.131 ms |\n\nCasos individuales destacados:\n\n| Par | BFS | Dijkstra/A* | Observación |\n|-----|-----|-------------|-------------|\n| C-SUR → Z-48 | 192.2 min (5 tramos) | 146.8 min (6 tramos) | BFS 31 % más caro con menos tramos |\n| C-SUR → Z-02 | 97.0 min (3 tramos) | 86.8 min (6 tramos) | La ruta corta en tramos no es la rápida |\n| C-ORIENTE → Z-18 | 74.1 min | 72.0 min; A* visita 7 vs 17 | Heurística recorta 59 % de expansiones |\n\n**Discusión**: BFS es el más veloz por operación (frontera FIFO sin heap)\npero sus rutas cuestan en promedio **11 % más minutos**, inaceptable cuando el\nobjetivo es tiempo de respuesta. Dijkstra y A* devuelven siempre el mismo\ncosto óptimo - evidencia empírica de que la heurística euclidiana es\nadmisible - y A* expande en promedio **47 % menos nodos** que Dijkstra. En\neste grafo pequeño eso apenas se nota en milisegundos, pero la reducción de\nexpansiones es la propiedad que escala a redes viales grandes.\n\n---\n\n## Conclusiones generales\n\n1. **Cada estructura cumple su complejidad teórica de forma medible**: la\n   tabla hash busca en tiempo constante, el heap opera en tiempo logarítmico\n   y los ordenamientos escalan n log n.\n2. **Las constantes importan**: \\`sorted()\\` en C es 30× más rápido que\n   nuestros O(n log n) en Python; BFS por operación es 4× más barato que\n   Dijkstra. La elección correcta depende de qué se optimiza (correctitud del\n   costo, trabajo total, simplicidad).\n3. **Las estructuras se potencian entre sí**: la tabla hash dentro de la cola\n   de prioridad habilita \\`actualizar_prioridad\\` O(log n); el heap propio es\n   la frontera de Dijkstra/A*; los ordenamientos y la tabla generan los\n   reportes. El sistema integrado usa cada pieza donde su complejidad es la\n   adecuada.\n"
+            }
+        ];
+    </script>
+
+    <!-- Lógica de la aplicación -->
+    <script>
+        (function () {
+            'use strict';
+
+            // Mapa: indice de documento -> SVG del diagrama
+            var DIAGRAM_SVGS = {
+                0: 'diagramas/01_clase_adt.svg',
+                6: 'diagramas/07_flujo_integrado.svg'
+            };
+
+            // Referencias DOM
+            var tabNav = document.getElementById('tab-nav');
+            var docContent = document.getElementById('doc-content');
+            var btnPrev = document.getElementById('btn-prev');
+            var btnNext = document.getElementById('btn-next');
+            var pageInd = document.getElementById('page-indicator');
+
+            // Estado
+            var currentIndex = -1;
+            var renderedDocs = {};
+
+            // Construir pestañas
+            DOCS.forEach((doc, i) => {
+                const btn = document.createElement('button');
+                btn.textContent = doc.tab;
+                btn.title = doc.title;
+                btn.setAttribute('role', 'tab');
+                btn.setAttribute('aria-selected', 'false');
+                btn.dataset.index = i;
+                btn.addEventListener('click', () => loadDoc(i));
+                tabNav.appendChild(btn);
+            });
+
+            // Cargar un documento
+            function loadDoc(index) {
+                if (index < 0 || index >= DOCS.length) return;
+
+                // Actualizar clase activa en pestañas
+                var tabs = tabNav.querySelectorAll('button');
+                tabs.forEach(function (btn, i) {
+                    var active = i === index;
+                    btn.classList.toggle('active', active);
+                    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+                });
+
+                currentIndex = index;
+
+                var docId = 'doc-panel-' + index;
+                var panel = document.getElementById(docId);
+
+                if (!panel) {
+                    // Primer render: Markdown -> HTML
+                    panel = document.createElement('div');
+                    panel.id = docId;
+
+                    var fixedContent = DOCS[index].content.replace(/\\`/g, '`');
+                    var rawHtml = marked.parse(fixedContent);
+                    panel.innerHTML = rawHtml;
+
+                    // Reemplazar bloques ```mermaid por <img> del SVG
+                    var mermaidBlocks = panel.querySelectorAll('pre code.language-mermaid');
+                    mermaidBlocks.forEach(function (block) {
+                        var pre = block.parentElement;
+                        var svgFile = DIAGRAM_SVGS[index];
+                        if (svgFile) {
+                            var wrapper = document.createElement('div');
+                            wrapper.className = 'diagrama';
+                            var img = document.createElement('img');
+                            img.src = svgFile;
+                            img.alt = 'Diagrama';
+                            img.loading = 'lazy';
+                            wrapper.appendChild(img);
+                            pre.replaceWith(wrapper);
+                        }
+                    });
+
+                    docContent.innerHTML = '';
+                    docContent.appendChild(panel);
+
+                    // Resaltar sintaxis de codigo
+                    panel.querySelectorAll('pre code:not(.language-mermaid)').forEach(function (block) {
+                        hljs.highlightElement(block);
+                    });
+
+                    renderedDocs[index] = true;
+                } else {
+                    docContent.innerHTML = '';
+                    docContent.appendChild(panel);
+                }
+
+                // Actualizar navegacion inferior
+                updateFooter();
+
+                // Scroll al inicio del contenido
+                docContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            // Navegación (anterior / siguiente)
+            function goPrev() {
+                if (currentIndex > 0) loadDoc(currentIndex - 1);
+            }
+
+            function goNext() {
+                if (currentIndex < DOCS.length - 1) loadDoc(currentIndex + 1);
+            }
+
+            function updateFooter() {
+                btnPrev.disabled = currentIndex <= 0;
+                btnNext.disabled = currentIndex >= DOCS.length - 1;
+
+                if (currentIndex >= 0) {
+                    pageInd.textContent =
+                        (currentIndex + 1) + ' de ' + DOCS.length + '  -  ' +
+                        DOCS[currentIndex].title;
+                } else {
+                    pageInd.textContent = '';
+                }
+            }
+
+            // Eventos
+            btnPrev.addEventListener('click', goPrev);
+            btnNext.addEventListener('click', goNext);
+
+            // Atajos de teclado: ← →
+            document.addEventListener('keydown', (e) => {
+                // Ignorar si el foco está en un input/textarea
+                const tag = document.activeElement?.tagName;
+                if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+                if (e.key === 'ArrowLeft') { e.preventDefault(); goPrev(); }
+                if (e.key === 'ArrowRight') { e.preventDefault(); goNext(); }
+            });
+
+            // Configurar marked
+            marked.setOptions({
+                gfm: true,
+                breaks: false,
+            });
+
+            // Auto-cargar primer documento
+            if (DOCS.length > 0) {
+                loadDoc(0);
+            }
+        })();
+    </script>
+
+</body>
+
+</html>
